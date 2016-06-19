@@ -1,3 +1,5 @@
 language: node_js
 node_js:
 - node
+- "0.10" # debian stable
+- "4" # debian sid
