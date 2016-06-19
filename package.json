@@ -1,0 +1,24 @@
+{
+  "name": "ipfs-paste-spec",
+  "version": "0.0.0",
+  "description": "spec for encrypted pastes in ipfs",
+  "main": "lib.js",
+  "dependencies": {
+    "tweetnacl": "^0.14.3",
+    "tweetnacl-util": "^0.13.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kpcyrd/ipfs-paste-spec.git"
+  },
+  "author": "kpcyrd <git@rxv.cc>",
+  "license": "CC0-1.0",
+  "bugs": {
+    "url": "https://github.com/kpcyrd/ipfs-paste-spec/issues"
+  },
+  "homepage": "https://github.com/kpcyrd/ipfs-paste-spec#readme"
+}
