@@ -1,4 +1,9 @@
-# ipfs-paste-spec
+# ipfs-paste-spec [![npm][npm-image]][npm-url] [![downloads][downloads-image]][downloads-url]
+
+[npm-image]: https://img.shields.io/npm/v/ipfs-paste-spec.svg
+[npm-url]: https://npmjs.org/package/ipfs-paste-spec
+[downloads-image]: https://img.shields.io/npm/dm/ipfs-paste-spec.svg
+[downloads-url]: https://npmjs.org/package/ipfs-paste-spec
 
 spec for encrypted pastes in ipfs
 
@@ -6,6 +11,12 @@ spec for encrypted pastes in ipfs
 
 ```
 https://example.com/p/<ipfs-hash>#<decryption-key>
+```
+
+## install
+
+```
+npm install ipfs-paste-spec --save
 ```
 
 ## demo implementation usage
