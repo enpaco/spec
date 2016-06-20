@@ -41,7 +41,7 @@ function add(payload) {
 }
 
 function cat(path) {
-    var x = child_process.spawnSync('ipfs', ['cat', path]);
+    var x = child_process.spawnSync('ipfs', ['cat', '--', path]);
     return x.stdout.toString();
 
 }
