@@ -34,15 +34,19 @@ function decrypt(ascii_payload, ascii_key) {
 }
 
 function add(payload) {
+    var header = '00000000';
     var x = child_process.spawnSync('ipfs', ['add', '-q'], {
-        input: payload
+        input: header + payload
     });
     return x.stdout.toString().trim();
 }
 
 function cat(path) {
     var x = child_process.spawnSync('ipfs', ['cat', '--', path]);
-    return x.stdout.toString();
+    var stdout = x.stdout.toString();
+    var header = stdout.slice(0, 8);
+    var payload = stdout.slice(8);
+    return payload;
 
 }
 
