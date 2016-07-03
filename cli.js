@@ -12,11 +12,6 @@ switch(process.argv[2] || '') {
         console.log('/ipfs/' + path + '#' + box.key);
         break;
 
-        var box = lib.encrypt(message);
-        process.stderr.write(box.key);
-        process.stdout.write(box.payload);
-        break;
-
     case 'decrypt':
         var paste = process.argv[3].split('#');
         var path = paste[0];
@@ -27,19 +22,11 @@ switch(process.argv[2] || '') {
         process.stdout.write(msg);
         break;
 
-        var box = fs.readFileSync('/dev/stdin').toString();
-
-        var msg = lib.decrypt(box, key);
-        process.stdout.write(msg);
-        break;
-        break;
-
     case 'encrypt-raw':
         var message = fs.readFileSync('/dev/stdin').toString();
         var box = lib.encrypt(message);
         process.stderr.write(box.key);
         process.stdout.write(box.payload);
-
         break;
 
     case 'decrypt-raw':
