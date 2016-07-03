@@ -35,8 +35,17 @@ function decrypt(ascii_payload, ascii_key) {
 
 function add(payload) {
     var header = '00000000';
-    var x = child_process.spawnSync('ipfs', ['add', '-q'], {
-        input: header + payload
+    return _add(['add', '-q'], header + payload);
+}
+
+function hash(payload) {
+    var header = '00000000';
+    return _add(['add', '-qn'], header + payload);
+}
+
+function _add(args, data) {
+    var x = child_process.spawnSync('ipfs', args, {
+        input: data
     });
     return x.stdout.toString().trim();
 }
@@ -55,3 +64,4 @@ exports.decrypt = decrypt;
 
 exports.add = add;
 exports.cat = cat;
+exports.hash = hash;
