@@ -33,14 +33,21 @@ function decrypt(ascii_payload, ascii_key) {
     return message;
 }
 
+function wrap(payload) {
+    console.log(payload);
+    return '00000000' + payload;
+}
+
+function unwrap(msg) {
+    return msg.slice(8);
+}
+
 function add(payload) {
-    var header = '00000000';
-    return _add(['add', '-q'], header + payload);
+    return _add(['add', '-q'], wrap(payload));
 }
 
 function hash(payload) {
-    var header = '00000000';
-    return _add(['add', '-qn'], header + payload);
+    return _add(['add', '-qn'], wrap(payload));
 }
 
 function _add(args, data) {
@@ -53,10 +60,7 @@ function _add(args, data) {
 function cat(path) {
     var x = child_process.spawnSync('ipfs', ['cat', '--', path]);
     var stdout = x.stdout.toString();
-    var header = stdout.slice(0, 8);
-    var payload = stdout.slice(8);
-    return payload;
-
+    return unwrap(stdout);
 }
 
 exports.encrypt = encrypt;
@@ -65,3 +69,6 @@ exports.decrypt = decrypt;
 exports.add = add;
 exports.cat = cat;
 exports.hash = hash;
+
+exports.wrap = wrap;
+exports.unwrap = unwrap;
