@@ -11,6 +11,22 @@
 
 spec for encrypted pastes in ipfs
 
+## Abstract
+
+Current implementations of pastebins are great to share text with people. If you need to rely on secrecy, there are multiple pastebins offering client side encryption, so the server never actually has access to it's content. Yet, pastebins usually introduce single points of failure, if a pastebin shuts down, all it's pastes are lost.
+
+ipfs-paste-spec aims for providing a way to disassociate pastes from pastebins. The paste is encrypted using libnacl and then added to ipfs. ipfs is a peer-to-peer network that allows you to address files by it's content. To do that, it hashes the encrypted paste and allows other people to download it from whoever has the file (ipfs also verifies the data wasn't modified).
+
+Pastebins don't have ownership over the pastes created, but insert them into the network. This means you can replace the domain inside an url and access the paste on any pastebin complying to the spec.
+
+## Goals
+
+- avoid centralization
+- easy to scale
+- easy to parse
+- it's possible to paste on one terminal and receive from another terminal without using a webinterface
+- optionally: configureable if ciphertext is added to the ipfs dht or just hashed and stored locally
+
 ## url spec
 
 ```
@@ -32,4 +48,3 @@ $ ./cli decrypt /ipfs/QmYeVNsjcHgrWpXof3nzRKkabEeVBWcASHzrXDNm4C3vFG#TuzNfsQq98F
 ohai
 $
 ```
-
