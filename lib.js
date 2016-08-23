@@ -90,24 +90,24 @@ function decrypt(ascii_payload, ascii_key) {
 }
 
 function add(payload) {
-    return _add(['add', '-q'], payload);
+    return ipfs(['add', '-q'], payload).trim();
 }
 
 function hash(payload) {
-    return _add(['add', '-qn'], payload);
-}
-
-function _add(args, data) {
-    var x = child_process.spawnSync('ipfs', args, {
-        input: data
-    });
-    return x.stdout.toString().trim();
+    return ipfs(['add', '-qn'], payload).trim();
 }
 
 function cat(path) {
-    var x = child_process.spawnSync('ipfs', ['cat', '--', path]);
-    var stdout = x.stdout.toString();
-    return stdout;
+    return ipfs(['cat', '--', path]);
+}
+
+function ipfs(args, data) {
+    var params = {};
+    if(data) {
+        params.input = data;
+    }
+    var x = child_process.spawnSync('ipfs', args, params);
+    return x.stdout.toString();
 }
 
 exports.wrap = wrap;
