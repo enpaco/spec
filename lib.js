@@ -1,12 +1,69 @@
 var child_process = require('child_process');
+var Parser = require('binary-parser').Parser;
+var msgpack = require('msgpack-lite');
 var nacl = require('tweetnacl');
 nacl.util = require('tweetnacl-util');
 
-function encrypt(message) {
+function toUint16(num) {
+    var buf = new Buffer(2);
+    buf[0] = ((num>>8) & 0xff);
+    buf[1] = (num & 0xff);
+    return buf;
+}
+
+function wrap(message, meta) {
+    if(meta) {
+        meta = msgpack.encode(meta);
+    } else {
+        meta = new Buffer(0);
+    }
+
+    var len = toUint16(meta.byteLength);
     var msg = nacl.util.decodeUTF8(message);
+
+    var buf = new Uint8Array(len.byteLength + meta.byteLength + msg.byteLength);
+    buf.set(new Uint8Array(len), 0);
+    buf.set(new Uint8Array(meta), len.byteLength);
+    buf.set(msg, len.byteLength + meta.byteLength);
+
+    return encrypt(buf);
+}
+
+function unwrap(ciphertext, key) {
+    var meta = {};
+    var body = '';
+
+    switch(ciphertext.slice(0, 2)) {
+        case '01':
+            var decrypted = decrypt(ciphertext.slice(2), key);
+
+            var header = new Parser()
+                .uint16('len')
+                .buffer('meta', {
+                    length: 'len'
+                });
+            var packed = header.parse(new Buffer(decrypted));
+            if(packed.len) {
+                meta = msgpack.decode(packed.meta);
+            }
+
+            var buf = decrypted.slice(2 + packed.len);
+            body = nacl.util.encodeUTF8(buf);
+            break;
+        default:
+            return;
+    }
+
+    return {
+        meta: meta,
+        body: body
+    }
+}
+
+function encrypt(buf) {
     var key = nacl.randomBytes(nacl.secretbox.keyLength);
     var nonce = nacl.randomBytes(nacl.secretbox.nonceLength);
-    var box = nacl.secretbox(msg, nonce, key);
+    var box = nacl.secretbox(buf, nonce, key);
 
     var payload = new Uint8Array(nonce.byteLength + box.byteLength);
     payload.set(nonce, 0);
@@ -16,7 +73,7 @@ function encrypt(message) {
     var ascii_key = nacl.util.encodeBase64(key);
 
     return {
-        payload: ascii_payload,
+        payload: '01' + ascii_payload,
         key: ascii_key
     }
 }
@@ -27,27 +84,17 @@ function decrypt(ascii_payload, ascii_key) {
     var nonce = payload.slice(0, nacl.secretbox.nonceLength);
     var box = payload.slice(nacl.secretbox.nonceLength);
 
-    var message = nacl.secretbox.open(box, nonce, key);
-    message = nacl.util.encodeUTF8(message);
+    var buf = nacl.secretbox.open(box, nonce, key);
 
-    return message;
-}
-
-function wrap(payload) {
-    console.log(payload);
-    return '00000000' + payload;
-}
-
-function unwrap(msg) {
-    return msg.slice(8);
+    return buf;
 }
 
 function add(payload) {
-    return _add(['add', '-q'], wrap(payload));
+    return _add(['add', '-q'], payload);
 }
 
 function hash(payload) {
-    return _add(['add', '-qn'], wrap(payload));
+    return _add(['add', '-qn'], payload);
 }
 
 function _add(args, data) {
@@ -60,8 +107,11 @@ function _add(args, data) {
 function cat(path) {
     var x = child_process.spawnSync('ipfs', ['cat', '--', path]);
     var stdout = x.stdout.toString();
-    return unwrap(stdout);
+    return stdout;
 }
+
+exports.wrap = wrap;
+exports.unwrap = unwrap;
 
 exports.encrypt = encrypt;
 exports.decrypt = decrypt;
@@ -69,6 +119,3 @@ exports.decrypt = decrypt;
 exports.add = add;
 exports.cat = cat;
 exports.hash = hash;
-
-exports.wrap = wrap;
-exports.unwrap = unwrap;
