@@ -1,6 +1,6 @@
 {
   "name": "ipfs-paste-spec",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "spec for encrypted pastes in ipfs",
   "main": "lib.js",
   "dependencies": {
