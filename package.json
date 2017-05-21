@@ -4,14 +4,25 @@
   "description": "spec for encrypted pastes in ipfs",
   "main": "lib.js",
   "dependencies": {
+    "buffer": "^5.0.6",
     "binary-parser": "^1.1.5",
     "msgpack-lite": "^0.1.20",
     "tweetnacl": "^0.14.3",
     "tweetnacl-util": "^0.13.3"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "browserify": "^14.3.0",
+    "jasmine-core": "^2.6.2",
+    "karma": "^1.7.0",
+    "karma-browserify": "^5.1.1",
+    "karma-firefox-launcher": "^1.0.1",
+    "karma-jasmine": "^1.1.0",
+    "watchify": "^3.9.0"
+  },
   "scripts": {
-    "test": "node test/test.js"
+    "test": "node test/test.js",
+    "karma": "node_modules/karma/bin/karma start",
+    "karma-once": "node_modules/karma/bin/karma start --browsers Firefox --single-run"
   },
   "repository": {
     "type": "git",

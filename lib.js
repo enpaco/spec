@@ -4,6 +4,11 @@ var msgpack = require('msgpack-lite');
 var nacl = require('tweetnacl');
 nacl.util = require('tweetnacl-util');
 
+if(typeof window !== 'undefined' && !('Buffer' in window)) {
+    // polyfill Buffer in browser
+    window.Buffer = require('buffer/').Buffer;
+}
+
 function toUint16(num) {
     var buf = new Buffer(2);
     buf[0] = ((num>>8) & 0xff);
@@ -18,13 +23,13 @@ function wrap(message, meta) {
         meta = new Buffer(0);
     }
 
-    var len = toUint16(meta.byteLength);
+    var len = toUint16(meta.length);
     var msg = nacl.util.decodeUTF8(message);
 
-    var buf = new Uint8Array(len.byteLength + meta.byteLength + msg.byteLength);
+    var buf = new Uint8Array(len.length + meta.length + msg.length);
     buf.set(new Uint8Array(len), 0);
-    buf.set(new Uint8Array(meta), len.byteLength);
-    buf.set(msg, len.byteLength + meta.byteLength);
+    buf.set(new Uint8Array(meta), len.length);
+    buf.set(msg, len.length + meta.length);
 
     return encrypt(buf);
 }
@@ -65,9 +70,9 @@ function encrypt(buf) {
     var nonce = nacl.randomBytes(nacl.secretbox.nonceLength);
     var box = nacl.secretbox(buf, nonce, key);
 
-    var payload = new Uint8Array(nonce.byteLength + box.byteLength);
+    var payload = new Uint8Array(nonce.length + box.length);
     payload.set(nonce, 0);
-    payload.set(box, nonce.byteLength);
+    payload.set(box, nonce.length);
 
     var ascii_payload = nacl.util.encodeBase64(payload);
     var ascii_key = nacl.util.encodeBase64(key);
