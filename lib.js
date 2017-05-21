@@ -4,7 +4,8 @@ var msgpack = require('msgpack-lite');
 var nacl = require('tweetnacl');
 nacl.util = require('tweetnacl-util');
 
-if(!('Buffer' in window)) {
+if(typeof window !== 'undefined' && !('Buffer' in window)) {
+    // polyfill Buffer in browser
     window.Buffer = require('buffer/').Buffer;
 }
 
