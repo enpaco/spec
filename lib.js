@@ -4,6 +4,10 @@ var msgpack = require('msgpack-lite');
 var nacl = require('tweetnacl');
 nacl.util = require('tweetnacl-util');
 
+if(!('Buffer' in window)) {
+    window.Buffer = require('buffer/').Buffer;
+}
+
 function toUint16(num) {
     var buf = new Buffer(2);
     buf[0] = ((num>>8) & 0xff);
