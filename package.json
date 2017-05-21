@@ -19,8 +19,9 @@
     "watchify": "^3.9.0"
   },
   "scripts": {
-    "test": "node test/test.js && node_modules/karma/bin/karma start --browsers Firefox --single-run",
-    "karma": "node_modules/karma/bin/karma start"
+    "test": "node test/test.js",
+    "karma": "node_modules/karma/bin/karma start",
+    "karma-once": "node_modules/karma/bin/karma start --browsers Firefox --single-run"
   },
   "repository": {
     "type": "git",
