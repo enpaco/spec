@@ -1,6 +1,6 @@
 {
   "name": "enpaco",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "spec for encrypted pastes in ipfs",
   "main": "lib.js",
   "dependencies": {
