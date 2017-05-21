@@ -27,10 +27,6 @@ Pastebins don't have ownership over the pastes created, but insert them into the
 - it's possible to paste on one terminal and receive from another terminal without using a webinterface
 - optionally: configureable if ciphertext is added to the ipfs dht or just hashed and stored locally
 
-## Implementations
-
-- [enpaco/php-pastebin](https://github.com/enpaco/php-pastebin) - maintained by [@dansup](https://github.com/dansup)
-
 ## Url spec
 
 ```
