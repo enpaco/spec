@@ -6,7 +6,7 @@
 [downloads-url]: https://npmjs.org/package/enpaco
 [dependency-image]: https://img.shields.io/david/enpaco/spec.svg
 [dependency-url]: https://david-dm.org/enpaco/spec
-[travis-image]: https://img.shields.io/travis/enpaco/spec.svg
+[travis-image]: https://img.shields.io/travis/enpaco/spec/master.svg
 [travis-url]: https://travis-ci.org/enpaco/spec
 
 spec for encrypted pastes in ipfs
