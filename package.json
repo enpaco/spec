@@ -1,5 +1,5 @@
 {
-  "name": "ipfs-paste-spec",
+  "name": "enpaco",
   "version": "0.1.1",
   "description": "spec for encrypted pastes in ipfs",
   "main": "lib.js",
@@ -15,12 +15,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kpcyrd/ipfs-paste-spec.git"
+    "url": "git+https://github.com/enpaco/spec.git"
   },
   "author": "kpcyrd <git@rxv.cc>",
   "license": "CC0-1.0",
   "bugs": {
-    "url": "https://github.com/kpcyrd/ipfs-paste-spec/issues"
+    "url": "https://github.com/enpaco/spec/issues"
   },
-  "homepage": "https://github.com/kpcyrd/ipfs-paste-spec#readme"
+  "homepage": "https://github.com/enpaco/spec#readme"
 }
