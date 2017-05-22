@@ -1,4 +1,4 @@
-var enpaco = require('../lib.js');
+var enpaco = require('../');
 
 describe('enpaco', function() {
     it('should encrypt without metadata', function() {
